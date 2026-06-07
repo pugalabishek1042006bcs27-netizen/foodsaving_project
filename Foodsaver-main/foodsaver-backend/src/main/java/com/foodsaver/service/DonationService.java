@@ -31,7 +31,7 @@ public class DonationService {
     private String uploadDir;
 
     public FoodDonation uploadDonation(
-        Long donorId,
+        String donorId,
         Map<String, String> fields,
         List<MultipartFile> images
     ) throws IOException {
@@ -100,8 +100,8 @@ public class DonationService {
     }
 
     public FoodDonation acceptDonationByVolunteer(
-        Long donationId,
-        Long volunteerId
+        String donationId,
+        String volunteerId
     ) {
         FoodDonation d = donationRepo
             .findById(donationId)
@@ -129,9 +129,9 @@ public class DonationService {
     }
 
     public FoodDonation verifyPickup(
-        Long donationId,
+        String donationId,
         String otp,
-        Long volunteerId
+        String volunteerId
     ) {
         FoodDonation d = donationRepo
             .findById(donationId)
@@ -166,8 +166,8 @@ public class DonationService {
     }
 
     public FoodDonation verifyDelivery(
-        Long donationId,
-        Long receiverId,
+        String donationId,
+        String receiverId,
         String receiverOtp
     ) {
         FoodRequest req = requestRepo
@@ -212,8 +212,8 @@ public class DonationService {
     }
 
     public FoodRequest requestDonation(
-        Long receiverId,
-        Long donationId,
+        String receiverId,
+        String donationId,
         String details,
         Integer qty
     ) {

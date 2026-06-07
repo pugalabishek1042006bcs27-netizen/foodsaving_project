@@ -31,7 +31,7 @@ public class ReceiverController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    private Long getUserId(String authHeader) {
+    private String getUserId(String authHeader) {
         return jwtUtil.extractUserId(authHeader.substring(7));
     }
 
@@ -57,7 +57,7 @@ public class ReceiverController {
     @PostMapping("/request/{donationId}")
     public ResponseEntity<?> requestDonation(
         @RequestHeader("Authorization") String auth,
-        @PathVariable Long donationId,
+        @PathVariable String donationId,
         @RequestBody Map<String, Object> body
     ) {
         try {
@@ -91,7 +91,7 @@ public class ReceiverController {
         @RequestParam("file") MultipartFile file
     ) {
         try {
-            Long receiverId = getUserId(auth);
+            String receiverId = getUserId(auth);
             Path uploadPath = Paths.get("./uploads/certificates");
             if (!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
             String filename =

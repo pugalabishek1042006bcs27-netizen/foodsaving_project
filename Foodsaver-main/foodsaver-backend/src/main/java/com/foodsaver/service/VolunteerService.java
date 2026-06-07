@@ -11,13 +11,13 @@ public class VolunteerService {
     @Autowired
     private VolunteerRepository volunteerRepo;
 
-    public Volunteer getProfile(Long volunteerId) {
+    public Volunteer getProfile(String volunteerId) {
         return volunteerRepo
             .findById(volunteerId)
             .orElseThrow(() -> new RuntimeException("Volunteer not found"));
     }
 
-    public Volunteer updateProfile(Long volunteerId, Volunteer updated) {
+    public Volunteer updateProfile(String volunteerId, Volunteer updated) {
         Volunteer v = getProfile(volunteerId);
         if (updated.getName() != null) v.setName(updated.getName());
         if (updated.getContactNumber() != null) v.setContactNumber(

@@ -11,13 +11,13 @@ public class ReceiverService {
     @Autowired
     private ReceiverRepository receiverRepo;
 
-    public Receiver getProfile(Long receiverId) {
+    public Receiver getProfile(String receiverId) {
         return receiverRepo
             .findById(receiverId)
             .orElseThrow(() -> new RuntimeException("Receiver not found"));
     }
 
-    public Receiver updateProfile(Long receiverId, Receiver updated) {
+    public Receiver updateProfile(String receiverId, Receiver updated) {
         Receiver r = getProfile(receiverId);
         if (updated.getReceiverName() != null) r.setReceiverName(
             updated.getReceiverName()

@@ -13,7 +13,7 @@ public class NotificationService {
     @Autowired
     private NotificationRepository notifRepo;
 
-    public void send(String userType, Long userId, String message) {
+    public void send(String userType, String userId, String message) {
         Notification n = Notification.builder()
             .userType(userType)
             .userId(userId)
@@ -23,16 +23,16 @@ public class NotificationService {
     }
 
     public void broadcast(String userType, String message) {
-        send(userType, 0L, message);
+        send(userType, "0", message);
     }
 
-    public List<Notification> getNotifications(String userType, Long userId) {
+    public List<Notification> getNotifications(String userType, String userId) {
         List<Notification> personal = new ArrayList<>(
             notifRepo.findByUserTypeAndUserId(userType, userId)
         );
         List<Notification> broadcast = notifRepo.findByUserTypeAndUserId(
             userType,
-            0L
+            "0"
         );
         personal.addAll(broadcast);
         personal.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));

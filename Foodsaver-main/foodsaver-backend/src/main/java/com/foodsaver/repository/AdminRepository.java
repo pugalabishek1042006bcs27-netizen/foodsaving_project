@@ -2,8 +2,8 @@ package com.foodsaver.repository;
 
 import com.foodsaver.model.Admin;
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface AdminRepository extends JpaRepository<Admin, Long> {
+public interface AdminRepository extends MongoRepository<Admin, String> {
     Optional<Admin> findByEmail(String email);
 }
