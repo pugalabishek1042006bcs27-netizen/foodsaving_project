@@ -14,7 +14,7 @@ export default function VolunteerActivity() {
   const handleVerifyPickup = async (e) => {
     e.preventDefault()
     try {
-      await verifyPickup({ donationId: parseInt(otp.donationId), otp: otp.otp })
+      await verifyPickup({ donationId: otp.donationId, otp: otp.otp })
       setMsg('✅ Pickup verified successfully!')
       setOtp({ donationId: '', otp: '' })
       getMyDeliveries().then(r => setDeliveries(r.data))

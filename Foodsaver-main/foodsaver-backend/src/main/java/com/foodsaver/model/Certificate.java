@@ -1,11 +1,11 @@
 package com.foodsaver.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "certificates")
+@Document(collection = "certificates")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,10 +13,9 @@ import lombok.*;
 public class Certificate {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long certId;
+    private String certId;
 
-    private Long receiverId;
+    private String receiverId;
     private String filePath;
     private String status = "Pending";
     private LocalDateTime uploadedAt = LocalDateTime.now();

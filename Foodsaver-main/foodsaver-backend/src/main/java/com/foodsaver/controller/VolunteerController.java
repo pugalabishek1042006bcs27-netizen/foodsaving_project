@@ -31,7 +31,7 @@ public class VolunteerController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    private Long getUserId(String authHeader) {
+    private String getUserId(String authHeader) {
         return jwtUtil.extractUserId(authHeader.substring(7));
     }
 
@@ -62,7 +62,7 @@ public class VolunteerController {
     @PostMapping("/accept/{donationId}")
     public ResponseEntity<?> acceptDonation(
         @RequestHeader("Authorization") String auth,
-        @PathVariable Long donationId
+        @PathVariable String donationId
     ) {
         try {
             return ResponseEntity.ok(

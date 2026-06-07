@@ -21,7 +21,7 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(Long userId, String userType, String email) {
+    public String generateToken(String userId, String userType, String email) {
         return Jwts.builder()
             .subject(email)
             .claim("userId", userId)
@@ -44,9 +44,9 @@ public class JwtUtil {
         return extractClaims(token).getSubject();
     }
 
-    public Long extractUserId(String token) {
+    public String extractUserId(String token) {
         Object id = extractClaims(token).get("userId");
-        return ((Number) id).longValue();
+        return id == null ? null : id.toString();
     }
 
     public String extractUserType(String token) {

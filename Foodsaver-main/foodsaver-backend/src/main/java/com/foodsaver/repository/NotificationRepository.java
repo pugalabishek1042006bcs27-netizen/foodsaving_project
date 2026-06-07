@@ -2,14 +2,14 @@ package com.foodsaver.repository;
 
 import com.foodsaver.model.Notification;
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface NotificationRepository
-    extends JpaRepository<Notification, Long>
+    extends MongoRepository<Notification, String>
 {
-    List<Notification> findByUserTypeAndUserId(String userType, Long userId);
+    List<Notification> findByUserTypeAndUserId(String userType, String userId);
     List<Notification> findByUserTypeAndUserIdOrderByCreatedAtDesc(
         String userType,
-        Long userId
+        String userId
     );
 }

@@ -11,13 +11,13 @@ public class DonorService {
     @Autowired
     private DonorRepository donorRepo;
 
-    public Donor getProfile(Long donorId) {
+    public Donor getProfile(String donorId) {
         return donorRepo
             .findById(donorId)
             .orElseThrow(() -> new RuntimeException("Donor not found"));
     }
 
-    public Donor updateProfile(Long donorId, Donor updated) {
+    public Donor updateProfile(String donorId, Donor updated) {
         Donor donor = getProfile(donorId);
         if (updated.getName() != null) donor.setName(updated.getName());
         if (updated.getContactNumber() != null) donor.setContactNumber(

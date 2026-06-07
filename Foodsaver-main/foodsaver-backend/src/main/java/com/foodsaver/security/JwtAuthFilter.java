@@ -31,7 +31,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (jwtUtil.isTokenValid(token)) {
                 String email = jwtUtil.extractEmail(token);
                 String userType = jwtUtil.extractUserType(token);
-                Long userId = jwtUtil.extractUserId(token);
+                String userId = jwtUtil.extractUserId(token);
 
                 var auth = new UsernamePasswordAuthenticationToken(
                     email,

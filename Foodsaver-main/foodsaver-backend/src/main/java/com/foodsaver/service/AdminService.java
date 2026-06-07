@@ -46,7 +46,7 @@ public class AdminService {
         return stats;
     }
 
-    public FoodDonation assignVolunteer(Long donationId, Long volunteerId) {
+    public FoodDonation assignVolunteer(String donationId, String volunteerId) {
         FoodDonation d = donationRepo
             .findById(donationId)
             .orElseThrow(() -> new RuntimeException("Donation not found"));
@@ -55,7 +55,7 @@ public class AdminService {
         return donationRepo.save(d);
     }
 
-    public Certificate updateCertificateStatus(Long certId, String status) {
+    public Certificate updateCertificateStatus(String certId, String status) {
         Certificate c = certRepo
             .findById(certId)
             .orElseThrow(() -> new RuntimeException("Certificate not found"));
@@ -63,7 +63,7 @@ public class AdminService {
         return certRepo.save(c);
     }
 
-    public FoodDonation updateDonationStatus(Long donationId, String status) {
+    public FoodDonation updateDonationStatus(String donationId, String status) {
         FoodDonation d = donationRepo
             .findById(donationId)
             .orElseThrow(() -> new RuntimeException("Donation not found"));

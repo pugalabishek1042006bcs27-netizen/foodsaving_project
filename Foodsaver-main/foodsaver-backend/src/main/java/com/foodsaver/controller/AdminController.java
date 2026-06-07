@@ -63,7 +63,7 @@ public class AdminController {
 
     @PutMapping("/donations/{id}/status")
     public ResponseEntity<?> updateDonationStatus(
-        @PathVariable Long id,
+        @PathVariable String id,
         @RequestBody Map<String, String> body
     ) {
         try {
@@ -79,8 +79,8 @@ public class AdminController {
 
     @PostMapping("/accept-donation/{donationId}/{volunteerId}")
     public ResponseEntity<?> assignVolunteer(
-        @PathVariable Long donationId,
-        @PathVariable Long volunteerId
+        @PathVariable String donationId,
+        @PathVariable String volunteerId
     ) {
         try {
             return ResponseEntity.ok(
@@ -100,7 +100,7 @@ public class AdminController {
 
     @PutMapping("/certificates/{id}/status")
     public ResponseEntity<?> updateCertificate(
-        @PathVariable Long id,
+        @PathVariable String id,
         @RequestBody Map<String, String> body
     ) {
         try {

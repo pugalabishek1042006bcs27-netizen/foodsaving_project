@@ -2,10 +2,10 @@ package com.foodsaver.repository;
 
 import com.foodsaver.model.VolunteerLocation;
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface VolunteerLocationRepository
-    extends JpaRepository<VolunteerLocation, Long>
+    extends MongoRepository<VolunteerLocation, String>
 {
-    List<VolunteerLocation> findByVolunteerId(Long volunteerId);
+    List<VolunteerLocation> findByVolunteerId(String volunteerId);
 }
