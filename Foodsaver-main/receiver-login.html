@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>FoodSaver - Receiver Login / Register</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: url("https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80")
+          center/cover fixed no-repeat;
+        margin: 0;
+        padding: 0;
+      }
+      .navbar {
+        background-color: #e63946;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+      }
+      .navbar .logo {
+        font-weight: bold;
+        font-size: 1.2em;
+      }
+      .navbar .links a {
+        color: white;
+        margin-left: 15px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .form-container {
+        display: flex;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+      .form-box {
+        background: #fff;
+        padding: 28px;
+        border-radius: 10px;
+        max-width: 520px;
+        width: 100%;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      }
+      h2 {
+        color: #4caf50;
+        text-align: center;
+        margin-bottom: 16px;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+      }
+      .row input {
+        flex: 1;
+      }
+      button {
+        padding: 10px 14px;
+        border-radius: 6px;
+        border: none;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      #registerBtn {
+        background: #388e3c;
+        color: #fff;
+        width: 100%;
+      }
+      #loginBtn {
+        background: #2e7d32;
+        color: #fff;
+        width: 100%;
+      }
+      #message {
+        margin-top: 12px;
+        text-align: center;
+        font-weight: 700;
+      }
+      .error {
+        color: #c62828;
+      }
+      .success {
+        color: #2e7d32;
+      }
+      .link {
+        color: #4caf50;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="logo">FoodSaver</div>
+      <div class="links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+
+    <div class="form-container">
+      <div class="form-box">
+        <h2 id="formTitle">Receiver Registration</h2>
+
+        <!-- Registration Form -->
+        <form id="registerForm" onsubmit="return false;">
+          <input
+            type="text"
+            id="orgName"
+            placeholder="Organization Name (e.g., Helping Hands Trust)"
+            required
+          />
+          <input
+            type="text"
+            id="contactPerson"
+            placeholder="Contact Person Name"
+            required
+          />
+          <input
+            type="tel"
+            id="phone"
+            placeholder="Contact Number"
+            maxlength="10"
+            required
+          />
+          <input
+            type="email"
+            id="emailReg"
+            placeholder="Organization Email Address"
+            required
+          />
+          <input
+            type="password"
+            id="passwordReg"
+            placeholder="Password"
+            required
+          />
+          <textarea
+            id="address"
+            placeholder="Full Address"
+            required
+            style="height: 70px"
+          ></textarea>
+          <div class="row" style="margin-top: 6px">
+            <input type="text" id="city" placeholder="City" required />
+            <input type="text" id="state" placeholder="State" required />
+            <input type="text" id="pincode" placeholder="Pincode" required />
+          </div>
+          <div style="margin-top: 12px">
+            <button id="registerBtn" onclick="register()">Register</button>
+          </div>
+          <p style="text-align: center; margin-top: 12px">
+            Already have an account?
+            <span class="link" onclick="toggleForm('login')">Login</span>
+          </p>
+        </form>
+
+        <!-- Login Form -->
+        <form id="loginForm" style="display: none" onsubmit="return false;">
+          <input
+            type="email"
+            id="emailLogin"
+            placeholder="Email Address"
+            required
+          />
+          <input
+            type="password"
+            id="passwordLogin"
+            placeholder="Password"
+            required
+          />
+          <div style="margin-top: 12px">
+            <button id="loginBtn" onclick="login()">Login</button>
+          </div>
+          <p style="text-align: center; margin-top: 12px">
+            New organization?
+            <span class="link" onclick="toggleForm('register')">Register</span>
+          </p>
+        </form>
+
+        <div id="message"></div>
+      </div>
+    </div>
+
+    <script>
+      const messageDiv = document.getElementById("message");
+      function showMessage(text, cls) {
+        messageDiv.textContent = text;
+        messageDiv.className = cls || "";
+      }
+      function toggleForm(mode) {
+        const reg = document.getElementById("registerForm"),
+          log = document.getElementById("loginForm"),
+          title = document.getElementById("formTitle");
+        if (mode === "login") {
+          reg.style.display = "none";
+          log.style.display = "block";
+          title.innerText = "Receiver Login";
+          showMessage("", "");
+        } else {
+          log.style.display = "none";
+          reg.style.display = "block";
+          title.innerText = "Receiver Registration";
+          showMessage("", "");
+        }
+      }
+
+      async function register() {
+        showMessage("", "");
+        const data = {
+          name: document.getElementById("orgName").value.trim(),
+          contact_person: document.getElementById("contactPerson").value.trim(),
+          phone: document.getElementById("phone").value.trim(),
+          email: document.getElementById("emailReg").value.trim(),
+          password: document.getElementById("passwordReg").value,
+          address: document.getElementById("address").value.trim(),
+          city: document.getElementById("city").value.trim(),
+          state: document.getElementById("state").value.trim(),
+          pincode: document.getElementById("pincode").value.trim(),
+        };
+
+        if (
+          !data.name ||
+          !data.contact_person ||
+          !data.email ||
+          !data.password
+        ) {
+          showMessage("❗ Please fill required fields", "error");
+          return;
+        }
+
+        try {
+          const res = await fetch("receiver-register.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(data),
+          });
+          const text = (await res.text()).trim();
+          if (text === "success") {
+            showMessage("✅ Registration successful. Please login.", "success");
+            toggleForm("login");
+          } else {
+            showMessage("❌ " + text, "error");
+          }
+        } catch (err) {
+          showMessage("❌ Network error", "error");
+        }
+      }
+
+      async function login() {
+        showMessage("", "");
+        const email = document.getElementById("emailLogin").value.trim();
+        const password = document.getElementById("passwordLogin").value;
+        if (!email || !password) {
+          showMessage("❗ Enter email and password", "error");
+          return;
+        }
+
+        try {
+          const res = await fetch("receiver-login.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `email=${encodeURIComponent(
+              email
+            )}&password=${encodeURIComponent(password)}`,
+          });
+          const text = (await res.text()).trim();
+          if (text === "success") {
+            showMessage("✅ Login successful. Redirecting...", "success");
+            setTimeout(
+              () => (window.location.href = "receiver-dashboard.php"),
+              900
+            );
+          } else {
+            showMessage("❌ " + text, "error");
+          }
+        } catch (err) {
+          showMessage("❌ Network error", "error");
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Services - FoodSavr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="gradient-bg min-h-screen">
+    <!-- Navigation -->
+    <nav
+      class="bg-white bg-opacity-90 backdrop-blur-sm shadow-lg fixed w-full top-0 z-50"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <h1 class="text-2xl font-bold text-purple-600">🍽️ FoodSavr</h1>
+          </div>
+          <div class="flex items-center space-x-6">
+            <a
+              href="index.html"
+              class="nav-link text-gray-700 hover:text-purple-600 font-medium"
+              >Home</a
+            >
+            <a
+              href="about.html"
+              class="nav-link text-gray-700 hover:text-purple-600 font-medium"
+              >About</a
+            >
+            <a href="services.html" class="nav-link text-purple-600 font-medium"
+              >Services</a
+            >
+            <a
+              href="contact.html"
+              class="nav-link text-gray-700 hover:text-purple-600 font-medium"
+              >Contact</a
+            >
+            <div class="relative group">
+              <button
+                class="flex items-center space-x-2 bg-purple-600 text-white px-4 py-2 rounded-full"
+              >
+                <span>👤</span><span>Login</span>
+              </button>
+              <div
+                class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block"
+              >
+                <a
+                  href="donor-login.html"
+                  class="block px-4 py-2 hover:bg-purple-50"
+                  >Login as Donor</a
+                >
+                <a
+                  href="volunteer-login.html"
+                  class="block px-4 py-2 hover:bg-purple-50"
+                  >Login as Volunteer</a
+                >
+                <a
+                  href="receiver-login.html"
+                  class="block px-4 py-2 hover:bg-purple-50"
+                  >Login as Receiver</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Services Content -->
+    <div class="pt-20 min-h-screen py-20 px-4">
+      <div class="max-w-6xl mx-auto text-white fade-in">
+        <h1 class="text-5xl font-bold text-center mb-12">Our Services</h1>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-6 card-hover"
+          >
+            <div class="text-4xl mb-4">📱</div>
+            <h3 class="text-xl font-semibold mb-3">Food Donation Platform</h3>
+            <p class="mb-4">
+              Easy-to-use platform for donors to list available food with pickup
+              details.
+            </p>
+            <ul class="text-sm space-y-1">
+              <li>• Real-time food listings</li>
+              <li>• Photo uploads</li>
+              <li>• Expiration tracking</li>
+              <li>• Pickup scheduling</li>
+            </ul>
+          </div>
+          <div
+            class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-6 card-hover"
+          >
+            <div class="text-4xl mb-4">🚛</div>
+            <h3 class="text-xl font-semibold mb-3">Volunteer Network</h3>
+            <p class="mb-4">
+              Coordinated network of volunteers for efficient food
+              transportation.
+            </p>
+            <ul class="text-sm space-y-1">
+              <li>• Route optimization</li>
+              <li>• Volunteer matching</li>
+              <li>• Real-time tracking</li>
+              <li>• Delivery confirmation</li>
+            </ul>
+          </div>
+          <div
+            class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-6 card-hover"
+          >
+            <div class="text-4xl mb-4">📊</div>
+            <h3 class="text-xl font-semibold mb-3">Impact Tracking</h3>
+            <p class="mb-4">
+              Analytics to measure environmental and social impact.
+            </p>
+            <ul class="text-sm space-y-1">
+              <li>• Waste reduction metrics</li>
+              <li>• Meals provided counter</li>
+              <li>• Carbon footprint analysis</li>
+              <li>• Community reports</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
