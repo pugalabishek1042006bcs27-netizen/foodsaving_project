@@ -11,19 +11,16 @@ export function connect(locationCallback) {
     webSocketFactory: () => new SockJS(import.meta.env.VITE_API_URL + '/ws'),
     reconnectDelay: 5000,
     onConnect: () => {
-      console.log('WebSocket connected')
       connected = true
       client.subscribe('/topic/location', msg => {
         const data = JSON.parse(msg.body)
-        console.log('📍 location update:', data)
         if (locationCallback) locationCallback(data)
       })
     },
     onDisconnect: () => {
-      console.log('WebSocket disconnected')
       connected = false
     },
-    onStompError: frame => console.error('STOMP error', frame),
+    onStompError: () => {},
   })
 
   client.activate()

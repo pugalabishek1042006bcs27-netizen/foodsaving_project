@@ -22,6 +22,7 @@ public class DonorController {
     private JwtUtil jwtUtil;
 
     private String getUserId(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) return null;
         return jwtUtil.extractUserId(authHeader.substring(7));
     }
 
