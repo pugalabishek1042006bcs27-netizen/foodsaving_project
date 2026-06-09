@@ -213,9 +213,7 @@ Backend config (`application.properties`):
 | Property | Default | Description |
 |---|---|---|
 | `server.port` | `8080` | Backend port |
-| `spring.data.mongodb.host` | `localhost` | MongoDB host |
-| `spring.data.mongodb.port` | `27017` | MongoDB port |
-| `spring.data.mongodb.database` | `foodsaver` | MongoDB database name |
+| `MONGODB_URI` | `mongodb://localhost:27017/foodsaver` | MongoDB connection URI |
 | `jwt.secret` | *(hardcoded)* | JWT signing secret (change in production) |
 | `jwt.expiration` | `86400000` | JWT expiration (ms) |
 | `razorpay.key-id` | *(placeholder)* | Razorpay key ID |

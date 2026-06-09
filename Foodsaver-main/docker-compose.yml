@@ -16,9 +16,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATA_MONGODB_HOST=mongodb
-      - SPRING_DATA_MONGODB_PORT=27017
-      - SPRING_DATA_MONGODB_DATABASE=foodsaver
+      - MONGODB_URI=mongodb://mongodb:27017/foodsaver
       - JWT_SECRET=foodsaverSuperSecretKey2024MinimumLengthForHS256AlgorithmMustBe32Chars
       - RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
       - RAZORPAY_KEY_SECRET=your_secret_here
