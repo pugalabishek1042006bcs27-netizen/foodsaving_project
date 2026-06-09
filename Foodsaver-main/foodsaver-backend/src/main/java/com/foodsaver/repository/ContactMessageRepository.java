@@ -1,7 +1,7 @@
 package com.foodsaver.repository;
 
 import com.foodsaver.model.ContactMessage;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ContactMessageRepository
-    extends JpaRepository<ContactMessage, Long> {}
+    extends MongoRepository<ContactMessage, String> {}

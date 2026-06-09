@@ -1,11 +1,11 @@
 package com.foodsaver.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import lombok.*;
 
-@Entity
-@Table(name = "food_requests")
+@Document(collection = "food_requests")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,18 +13,14 @@ import lombok.*;
 public class FoodRequest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long requestId;
+    private String requestId;
 
-    private Long receiverId;
-    private Long donationId;
+    private String receiverId;
+    private String donationId;
     private Integer quantity = 1;
-
-    @Column(columnDefinition = "TEXT")
     private String details;
-
     private LocalDateTime requestDate = LocalDateTime.now();
     private String status = "Pending";
-    private Long volunteerId;
+    private String volunteerId;
     private String receiverOtp;
 }

@@ -1,11 +1,12 @@
 package com.foodsaver.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import lombok.*;
 
-@Entity
-@Table(name = "donor")
+@Document(collection = "donor")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,20 +14,16 @@ import lombok.*;
 public class Donor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long donorId;
+    private String donorId;
 
     private String name;
 
-    @Column(unique = true)
+    @Indexed(unique = true)
     private String email;
 
     private String password;
     private String contactNumber;
-
-    @Column(columnDefinition = "TEXT")
     private String address;
-
     private LocalDateTime createdAt = LocalDateTime.now();
     private String profilePicture;
 }

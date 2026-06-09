@@ -21,6 +21,7 @@ import DonorDashboard from './pages/donor/DonorDashboard'
 import UploadDonation from './pages/donor/UploadDonation'
 import VolunteerDashboard from './pages/volunteer/VolunteerDashboard'
 import VolunteerActivity from './pages/volunteer/VolunteerActivity'
+import LiveTracking from './pages/volunteer/LiveTracking'
 import ReceiverDashboard from './pages/receiver/ReceiverDashboard'
 import BrowseDonations from './pages/receiver/BrowseDonations'
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -57,6 +58,12 @@ export default function App() {
               } />
               <Route path="/volunteer/activity" element={
                 <ProtectedRoute requiredRole="volunteer"><VolunteerActivity /></ProtectedRoute>
+              } />
+              <Route path="/volunteer/tracking" element={
+                <ProtectedRoute requiredRole="volunteer"><LiveTracking /></ProtectedRoute>
+              } />
+              <Route path="/tracking" element={
+                <ProtectedRoute><LiveTracking /></ProtectedRoute>
               } />
               <Route path="/receiver/dashboard" element={
                 <ProtectedRoute requiredRole="receiver"><ReceiverDashboard /></ProtectedRoute>

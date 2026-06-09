@@ -42,9 +42,10 @@ export default function DonorDashboard() {
             <h1 className="text-3xl font-bold">Welcome, {profile?.name} 🌿</h1>
             <p className="opacity-90 mt-1">Thank you for making a difference. Manage your donations below.</p>
           </div>
-          <Link to="/donor/upload" className="bg-white text-green-700 px-6 py-3 rounded-xl font-semibold hover:bg-green-50 transition-colors shadow-md">
-            + Upload Donation
-          </Link>
+          <div className="flex gap-3">
+            <Link to="/tracking" className="bg-white text-blue-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-blue-50 transition-colors shadow-md">📍 Live Tracking</Link>
+            <Link to="/donor/upload" className="bg-white text-green-700 px-6 py-3 rounded-xl font-semibold hover:bg-green-50 transition-colors shadow-md">+ Upload Donation</Link>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">

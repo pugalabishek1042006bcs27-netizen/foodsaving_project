@@ -2,12 +2,12 @@ package com.foodsaver.repository;
 
 import com.foodsaver.model.FoodRequest;
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface FoodRequestRepository
-    extends JpaRepository<FoodRequest, Long>
+    extends MongoRepository<FoodRequest, String>
 {
-    List<FoodRequest> findByReceiverId(Long receiverId);
-    List<FoodRequest> findByDonationId(Long donationId);
-    List<FoodRequest> findByVolunteerId(Long volunteerId);
+    List<FoodRequest> findByReceiverId(String receiverId);
+    List<FoodRequest> findByDonationId(String donationId);
+    List<FoodRequest> findByVolunteerId(String volunteerId);
 }

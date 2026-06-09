@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const api = axios.create({ baseURL: 'http://localhost:8080' })
+const api = axios.create({ baseURL: import.meta.env.VITE_API_URL })
 
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token')
@@ -60,5 +60,9 @@ export const getNotifications = (userType, userId) =>
 
 // Contact
 export const submitContact = data => api.post('/api/contact/submit', data)
+
+// Payment
+export const createPaymentOrder = data => api.post('/api/payment/create-order', data)
+export const verifyPayment = data => api.post('/api/payment/verify', data)
 
 export default api

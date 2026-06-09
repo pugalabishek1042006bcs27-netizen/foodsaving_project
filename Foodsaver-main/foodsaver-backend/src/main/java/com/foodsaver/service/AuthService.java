@@ -1,10 +1,12 @@
 package com.foodsaver.service;
 
 import com.foodsaver.dto.*;
+import com.foodsaver.exception.BadRequestException;
 import com.foodsaver.model.*;
 import com.foodsaver.repository.*;
 import com.foodsaver.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,20 +27,22 @@ public class AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private boolean passwordMatches(String raw, String stored) {
-        // Support plain text passwords (from legacy data) and BCrypt
-        return raw.equals(stored);
+        return passwordEncoder.matches(raw, stored);
     }
 
     public LoginResponse loginDonor(LoginRequest req) {
         Donor donor = donorRepo
             .findByEmail(req.getEmail())
             .orElseThrow(() ->
-                new RuntimeException("Invalid email or password")
+                new IllegalArgumentException("Invalid email or password")
             );
         if (
             !passwordMatches(req.getPassword(), donor.getPassword())
-        ) throw new RuntimeException("Invalid email or password");
+        ) throw new IllegalArgumentException("Invalid email or password");
         String token = jwtUtil.generateToken(
             donor.getDonorId(),
             "donor",
@@ -57,11 +61,11 @@ public class AuthService {
         Volunteer v = volunteerRepo
             .findByEmail(req.getEmail())
             .orElseThrow(() ->
-                new RuntimeException("Invalid email or password")
+                new IllegalArgumentException("Invalid email or password")
             );
         if (
             !passwordMatches(req.getPassword(), v.getPassword())
-        ) throw new RuntimeException("Invalid email or password");
+        ) throw new IllegalArgumentException("Invalid email or password");
         String token = jwtUtil.generateToken(
             v.getVolunteerId(),
             "volunteer",
@@ -80,11 +84,11 @@ public class AuthService {
         Receiver r = receiverRepo
             .findByEmail(req.getEmail())
             .orElseThrow(() ->
-                new RuntimeException("Invalid email or password")
+                new IllegalArgumentException("Invalid email or password")
             );
         if (
             !passwordMatches(req.getPassword(), r.getPassword())
-        ) throw new RuntimeException("Invalid email or password");
+        ) throw new IllegalArgumentException("Invalid email or password");
         String token = jwtUtil.generateToken(
             r.getReceiverId(),
             "receiver",
@@ -103,11 +107,11 @@ public class AuthService {
         Admin a = adminRepo
             .findByEmail(req.getEmail())
             .orElseThrow(() ->
-                new RuntimeException("Invalid email or password")
+                new IllegalArgumentException("Invalid email or password")
             );
         if (
             !passwordMatches(req.getPassword(), a.getPassword())
-        ) throw new RuntimeException("Invalid email or password");
+        ) throw new IllegalArgumentException("Invalid email or password");
         String token = jwtUtil.generateToken(
             a.getAdminId(),
             "admin",
@@ -123,13 +127,13 @@ public class AuthService {
     }
 
     public ApiResponse registerDonor(DonorRegisterRequest req) {
-        if (donorRepo.existsByEmail(req.getEmail())) throw new RuntimeException(
+        if (donorRepo.existsByEmail(req.getEmail())) throw new BadRequestException(
             "Email already registered"
         );
         Donor d = Donor.builder()
             .name(req.getName())
             .email(req.getEmail())
-            .password(req.getPassword())
+            .password(passwordEncoder.encode(req.getPassword()))
             .contactNumber(req.getContactNumber())
             .address(req.getAddress())
             .build();
@@ -140,11 +144,11 @@ public class AuthService {
     public ApiResponse registerVolunteer(VolunteerRegisterRequest req) {
         if (
             volunteerRepo.existsByEmail(req.getEmail())
-        ) throw new RuntimeException("Email already registered");
+        ) throw new BadRequestException("Email already registered");
         Volunteer v = Volunteer.builder()
             .name(req.getName())
             .email(req.getEmail())
-            .password(req.getPassword())
+            .password(passwordEncoder.encode(req.getPassword()))
             .contactNumber(req.getContactNumber())
             .region(req.getRegion())
             .availability(req.getAvailability())
@@ -156,13 +160,13 @@ public class AuthService {
     public ApiResponse registerReceiver(ReceiverRegisterRequest req) {
         if (
             receiverRepo.existsByEmail(req.getEmail())
-        ) throw new RuntimeException("Email already registered");
+        ) throw new BadRequestException("Email already registered");
         Receiver r = Receiver.builder()
             .orgName(req.getOrgName())
             .receiverName(req.getReceiverName())
             .phone(req.getPhone())
             .email(req.getEmail())
-            .password(req.getPassword())
+            .password(passwordEncoder.encode(req.getPassword()))
             .address(req.getAddress())
             .city(req.getCity())
             .state(req.getState())

@@ -56,7 +56,7 @@ export default function BrowseDonations() {
             {donations.map(d => (
               <div key={d.donationId} className="bg-white rounded-xl shadow-md overflow-hidden card-hover">
                 {d.imagePaths && d.imagePaths.split(',')[0] && (
-                  <img src={`http://localhost:8080/${d.imagePaths.split(',')[0]}`} alt={d.foodType}
+                  <img src={`${import.meta.env.VITE_API_URL}/${d.imagePaths.split(',')[0]}`} alt={d.foodType}
                     className="w-full h-40 object-cover" onError={e => e.target.style.display = 'none'} />
                 )}
                 <div className="p-5">

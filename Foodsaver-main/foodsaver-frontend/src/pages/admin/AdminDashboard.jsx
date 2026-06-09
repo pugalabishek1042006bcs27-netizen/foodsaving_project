@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { getAdminDashboard, getAllDonors, getAllVolunteers, getAllReceivers, getAllDonations, updateDonationStatus, assignVolunteer, getCertificates, updateCertificateStatus, getContactMessages } from '../../services/api'
 
 const TABS = ['Overview', 'Donations', 'Users', 'Certificates', 'Messages']
@@ -30,8 +31,12 @@ export default function AdminDashboard() {
 
   const handleAssign = async (donationId, volunteerId) => {
     if (!volunteerId) return
-    await assignVolunteer(donationId, parseInt(volunteerId))
-    setDonations(prev => prev.map(d => d.donationId === donationId ? { ...d, volunteerId: parseInt(volunteerId), status: 'accepted' } : d))
+    try {
+      await assignVolunteer(donationId, volunteerId)
+      setDonations(prev => prev.map(d => d.donationId === donationId ? { ...d, volunteerId, status: 'accepted' } : d))
+    } catch (err) {
+      alert('Failed to assign: ' + (err.response?.data?.error || err.message))
+    }
   }
 
   const handleCertUpdate = async (id, status) => {
@@ -44,9 +49,12 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-gradient-to-r from-red-600 to-red-800 text-white rounded-2xl p-8 mb-8">
-          <h1 className="text-3xl font-bold">🛡️ Admin Dashboard</h1>
-          <p className="opacity-90 mt-1">Full system management and oversight</p>
+        <div className="bg-gradient-to-r from-red-600 to-red-800 text-white rounded-2xl p-8 mb-8 flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h1 className="text-3xl font-bold">🛡️ Admin Dashboard</h1>
+            <p className="opacity-90 mt-1">Full system management and oversight</p>
+          </div>
+          <Link to="/tracking" className="bg-white text-red-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-red-50 transition-colors shadow-md">📍 Live Tracking</Link>
         </div>
 
         <div className="flex gap-2 mb-6 flex-wrap">
@@ -107,7 +115,7 @@ export default function AdminDashboard() {
                         </select>
                       </td>
                       <td className="px-3 py-3">
-                        <select defaultValue="" onChange={e => handleAssign(d.donationId, e.target.value)}
+                        <select value={d.volunteerId || ''} onChange={e => handleAssign(d.donationId, e.target.value)}
                           className="border border-gray-300 rounded px-2 py-1 text-xs">
                           <option value="">Assign...</option>
                           {volunteers.map(v => <option key={v.volunteerId} value={v.volunteerId}>{v.name}</option>)}
@@ -161,7 +169,7 @@ export default function AdminDashboard() {
                   <tr key={c.certId} className="border-t hover:bg-gray-50">
                     <td className="px-4 py-3">#{c.certId}</td>
                     <td className="px-4 py-3">#{c.receiverId}</td>
-                    <td className="px-4 py-3 text-blue-600"><a href={`http://localhost:8080/${c.filePath}`} target="_blank" rel="noreferrer" className="hover:underline">View File</a></td>
+                    <td className="px-4 py-3 text-blue-600"><a href={`${import.meta.env.VITE_API_URL}/${c.filePath}`} target="_blank" rel="noreferrer" className="hover:underline">View File</a></td>
                     <td className="px-4 py-3"><span className={`px-2 py-1 rounded-full text-xs font-semibold ${c.status === 'Approved' ? 'bg-green-100 text-green-700' : c.status === 'Rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'}`}>{c.status}</span></td>
                     <td className="px-4 py-3">
                       <div className="flex gap-2">

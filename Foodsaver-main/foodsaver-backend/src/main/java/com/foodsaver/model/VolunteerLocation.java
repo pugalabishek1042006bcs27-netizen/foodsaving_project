@@ -1,12 +1,12 @@
 package com.foodsaver.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.*;
 
-@Entity
-@Table(name = "volunteer_locations")
+@Document(collection = "volunteer_locations")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,10 +14,9 @@ import lombok.*;
 public class VolunteerLocation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    private Long volunteerId;
+    private String volunteerId;
     private BigDecimal lat;
     private BigDecimal lng;
     private BigDecimal heading;

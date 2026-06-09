@@ -1,11 +1,11 @@
 package com.foodsaver.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import lombok.*;
 
-@Entity
-@Table(name = "admin")
+@Document(collection = "admin")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,14 +13,10 @@ import lombok.*;
 public class Admin {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long adminId;
+    private String adminId;
 
     private String name;
-
-    @Column(unique = true)
     private String email;
-
     private String password;
     private LocalDateTime createdAt = LocalDateTime.now();
 }

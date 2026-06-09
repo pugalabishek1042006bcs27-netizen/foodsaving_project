@@ -1,5 +1,7 @@
 package com.foodsaver.service;
 
+import com.foodsaver.exception.InvalidOtpException;
+import com.foodsaver.exception.ResourceNotFoundException;
 import com.foodsaver.model.*;
 import com.foodsaver.repository.*;
 import java.io.IOException;
@@ -31,7 +33,7 @@ public class DonationService {
     private String uploadDir;
 
     public FoodDonation uploadDonation(
-        Long donorId,
+        String donorId,
         Map<String, String> fields,
         List<MultipartFile> images
     ) throws IOException {
@@ -100,12 +102,12 @@ public class DonationService {
     }
 
     public FoodDonation acceptDonationByVolunteer(
-        Long donationId,
-        Long volunteerId
+        String donationId,
+        String volunteerId
     ) {
         FoodDonation d = donationRepo
             .findById(donationId)
-            .orElseThrow(() -> new RuntimeException("Donation not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Donation not found"));
         d.setVolunteerId(volunteerId);
         d.setStatus("accepted");
         donationRepo.save(d);
@@ -129,14 +131,14 @@ public class DonationService {
     }
 
     public FoodDonation verifyPickup(
-        Long donationId,
+        String donationId,
         String otp,
-        Long volunteerId
+        String volunteerId
     ) {
         FoodDonation d = donationRepo
             .findById(donationId)
-            .orElseThrow(() -> new RuntimeException("Donation not found"));
-        if (!d.getOtpCode().equals(otp)) throw new RuntimeException(
+            .orElseThrow(() -> new ResourceNotFoundException("Donation not found"));
+        if (!d.getOtpCode().equals(otp)) throw new InvalidOtpException(
             "Invalid OTP"
         );
 
@@ -166,8 +168,8 @@ public class DonationService {
     }
 
     public FoodDonation verifyDelivery(
-        Long donationId,
-        Long receiverId,
+        String donationId,
+        String receiverId,
         String receiverOtp
     ) {
         FoodRequest req = requestRepo
@@ -175,18 +177,18 @@ public class DonationService {
             .stream()
             .filter(r -> r.getReceiverId().equals(receiverId))
             .findFirst()
-            .orElseThrow(() -> new RuntimeException("Request not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
 
         if (
             !req.getReceiverOtp().equals(receiverOtp)
-        ) throw new RuntimeException("Invalid OTP");
+        ) throw new InvalidOtpException("Invalid OTP");
 
         req.setStatus("Completed");
         requestRepo.save(req);
 
         FoodDonation d = donationRepo
             .findById(donationId)
-            .orElseThrow(() -> new RuntimeException("Donation not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Donation not found"));
         d.setStatus("completed");
         donationRepo.save(d);
 
@@ -212,8 +214,8 @@ public class DonationService {
     }
 
     public FoodRequest requestDonation(
-        Long receiverId,
-        Long donationId,
+        String receiverId,
+        String donationId,
         String details,
         Integer qty
     ) {
@@ -230,7 +232,7 @@ public class DonationService {
 
         FoodDonation d = donationRepo
             .findById(donationId)
-            .orElseThrow(() -> new RuntimeException("Donation not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Donation not found"));
         notifService.send(
             "donor",
             d.getDonorId(),

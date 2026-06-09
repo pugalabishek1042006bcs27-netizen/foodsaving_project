@@ -1,11 +1,11 @@
 package com.foodsaver.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import lombok.*;
 
-@Entity
-@Table(name = "notifications")
+@Document(collection = "notifications")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,14 +13,10 @@ import lombok.*;
 public class Notification {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long notificationId;
+    private String notificationId;
 
     private String userType;
-    private Long userId;
-
-    @Column(columnDefinition = "TEXT")
+    private String userId;
     private String message;
-
     private LocalDateTime createdAt = LocalDateTime.now();
 }

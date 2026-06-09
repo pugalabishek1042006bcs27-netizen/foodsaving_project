@@ -21,7 +21,7 @@ public class DonorController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    private Long getUserId(String authHeader) {
+    private String getUserId(String authHeader) {
         return jwtUtil.extractUserId(authHeader.substring(7));
     }
 

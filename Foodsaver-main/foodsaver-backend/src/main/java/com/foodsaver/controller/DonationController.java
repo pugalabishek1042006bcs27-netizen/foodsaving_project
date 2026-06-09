@@ -24,7 +24,7 @@ public class DonationController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    private Long getUserId(String authHeader) {
+    private String getUserId(String authHeader) {
         return jwtUtil.extractUserId(authHeader.substring(7));
     }
 
@@ -53,7 +53,7 @@ public class DonationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getDonation(@PathVariable Long id) {
+    public ResponseEntity<?> getDonation(@PathVariable String id) {
         return donationRepo
             .findById(id)
             .map(ResponseEntity::ok)
@@ -66,7 +66,7 @@ public class DonationController {
         @RequestBody Map<String, Object> body
     ) {
         try {
-            Long donationId = Long.parseLong(body.get("donationId").toString());
+            String donationId = body.get("donationId").toString();
             String otp = (String) body.get("otp");
             return ResponseEntity.ok(
                 donationService.verifyPickup(donationId, otp, getUserId(auth))
@@ -84,7 +84,7 @@ public class DonationController {
         @RequestBody Map<String, Object> body
     ) {
         try {
-            Long donationId = Long.parseLong(body.get("donationId").toString());
+            String donationId = body.get("donationId").toString();
             String otp = (String) body.get("receiverOtp");
             return ResponseEntity.ok(
                 donationService.verifyDelivery(donationId, getUserId(auth), otp)

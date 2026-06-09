@@ -2,6 +2,7 @@ package com.foodsaver.controller;
 
 import com.foodsaver.dto.*;
 import com.foodsaver.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login/donor")
-    public ResponseEntity<?> loginDonor(@RequestBody LoginRequest req) {
+    public ResponseEntity<?> loginDonor(@Valid @RequestBody LoginRequest req) {
         try {
             return ResponseEntity.ok(authService.loginDonor(req));
         } catch (Exception e) {
@@ -25,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/login/volunteer")
-    public ResponseEntity<?> loginVolunteer(@RequestBody LoginRequest req) {
+    public ResponseEntity<?> loginVolunteer(@Valid @RequestBody LoginRequest req) {
         try {
             return ResponseEntity.ok(authService.loginVolunteer(req));
         } catch (Exception e) {
@@ -36,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/login/receiver")
-    public ResponseEntity<?> loginReceiver(@RequestBody LoginRequest req) {
+    public ResponseEntity<?> loginReceiver(@Valid @RequestBody LoginRequest req) {
         try {
             return ResponseEntity.ok(authService.loginReceiver(req));
         } catch (Exception e) {
@@ -47,7 +48,7 @@ public class AuthController {
     }
 
     @PostMapping("/login/admin")
-    public ResponseEntity<?> loginAdmin(@RequestBody LoginRequest req) {
+    public ResponseEntity<?> loginAdmin(@Valid @RequestBody LoginRequest req) {
         try {
             return ResponseEntity.ok(authService.loginAdmin(req));
         } catch (Exception e) {
@@ -59,7 +60,7 @@ public class AuthController {
 
     @PostMapping("/register/donor")
     public ResponseEntity<?> registerDonor(
-        @RequestBody DonorRegisterRequest req
+        @Valid @RequestBody DonorRegisterRequest req
     ) {
         try {
             return ResponseEntity.ok(authService.registerDonor(req));
@@ -72,7 +73,7 @@ public class AuthController {
 
     @PostMapping("/register/volunteer")
     public ResponseEntity<?> registerVolunteer(
-        @RequestBody VolunteerRegisterRequest req
+        @Valid @RequestBody VolunteerRegisterRequest req
     ) {
         try {
             return ResponseEntity.ok(authService.registerVolunteer(req));
@@ -85,7 +86,7 @@ public class AuthController {
 
     @PostMapping("/register/receiver")
     public ResponseEntity<?> registerReceiver(
-        @RequestBody ReceiverRegisterRequest req
+        @Valid @RequestBody ReceiverRegisterRequest req
     ) {
         try {
             return ResponseEntity.ok(authService.registerReceiver(req));

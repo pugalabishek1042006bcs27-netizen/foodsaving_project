@@ -1,9 +1,10 @@
 package com.foodsaver.controller;
 
 import com.foodsaver.dto.ApiResponse;
+import com.foodsaver.dto.ContactRequest;
 import com.foodsaver.model.ContactMessage;
 import com.foodsaver.repository.ContactMessageRepository;
-import java.util.Map;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,11 @@ public class ContactController {
     private ContactMessageRepository contactRepo;
 
     @PostMapping("/submit")
-    public ResponseEntity<?> submit(@RequestBody Map<String, String> body) {
+    public ResponseEntity<?> submit(@Valid @RequestBody ContactRequest req) {
         ContactMessage msg = ContactMessage.builder()
-            .name(body.get("name"))
-            .email(body.get("email"))
-            .message(body.get("message"))
+            .name(req.getName())
+            .email(req.getEmail())
+            .message(req.getMessage())
             .build();
         contactRepo.save(msg);
         return ResponseEntity.ok(

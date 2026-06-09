@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { getReceiverProfile, getMyRequests, getNotifications } from '../../services/api'
+import { getReceiverProfile, getMyRequests, getNotifications, verifyDelivery } from '../../services/api'
 import { useAuth } from '../../context/AuthContext'
 
 export default function ReceiverDashboard() {
@@ -9,13 +9,29 @@ export default function ReceiverDashboard() {
   const [requests, setRequests] = useState([])
   const [notifications, setNotifications] = useState([])
   const [loading, setLoading] = useState(true)
+  const [verifyForm, setVerifyForm] = useState({ donationId: '', receiverOtp: '' })
+  const [verifyMsg, setVerifyMsg] = useState('')
 
-  useEffect(() => {
+  const loadData = () => {
     Promise.all([getReceiverProfile(), getMyRequests(), getNotifications('receiver', user.userId)])
       .then(([p, r, n]) => { setProfile(p.data); setRequests(r.data); setNotifications(n.data) })
       .catch(console.error)
       .finally(() => setLoading(false))
-  }, [user.userId])
+  }
+
+  useEffect(() => { loadData() }, [user.userId])
+
+  const handleVerifyDelivery = async (e) => {
+    e.preventDefault(); setVerifyMsg('')
+    try {
+      await verifyDelivery({ donationId: verifyForm.donationId, receiverOtp: verifyForm.receiverOtp })
+      setVerifyMsg('✅ Delivery verified successfully!')
+      setVerifyForm({ donationId: '', receiverOtp: '' })
+      loadData()
+    } catch (err) {
+      setVerifyMsg('❌ ' + (err.response?.data?.message || 'Verification failed'))
+    }
+  }
 
   if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="text-xl text-gray-500 animate-pulse">Loading...</div></div>
 
@@ -34,9 +50,10 @@ export default function ReceiverDashboard() {
             <h1 className="text-3xl font-bold">Welcome, {profile?.orgName} 🏠</h1>
             <p className="opacity-90 mt-1">Contact: {profile?.receiverName} | {profile?.city}, {profile?.state}</p>
           </div>
-          <Link to="/receiver/browse" className="bg-white text-orange-700 px-6 py-3 rounded-xl font-semibold hover:bg-orange-50 transition-colors shadow-md">
-            Browse Donations
-          </Link>
+          <div className="flex gap-3">
+            <Link to="/tracking" className="bg-white text-blue-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-blue-50 transition-colors shadow-md">📍 Live Tracking</Link>
+            <Link to="/receiver/browse" className="bg-white text-orange-700 px-6 py-3 rounded-xl font-semibold hover:bg-orange-50 transition-colors shadow-md">Browse Donations</Link>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -65,6 +82,24 @@ export default function ReceiverDashboard() {
             </div>
           </div>
         )}
+
+        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+          <h2 className="text-lg font-bold text-gray-700 mb-4">🔐 Verify Delivery (Enter Receiver OTP)</h2>
+          {verifyMsg && (
+            <div className={`p-3 rounded-lg text-sm mb-4 ${verifyMsg.startsWith('✅') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>{verifyMsg}</div>
+          )}
+          <form onSubmit={handleVerifyDelivery} className="flex gap-3 flex-wrap">
+            <input value={verifyForm.donationId} onChange={e => setVerifyForm({ ...verifyForm, donationId: e.target.value })}
+              placeholder="Donation ID" required
+              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 w-32" />
+            <input value={verifyForm.receiverOtp} onChange={e => setVerifyForm({ ...verifyForm, receiverOtp: e.target.value })}
+              placeholder="Receiver OTP" required
+              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 w-36" />
+            <button type="submit" className="bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+              Verify Delivery
+            </button>
+          </form>
+        </div>
 
         <div className="bg-white rounded-xl shadow-md p-6">
           <h2 className="text-lg font-bold text-gray-800 mb-4">📋 My Food Requests</h2>

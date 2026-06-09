@@ -1,0 +1,43 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: foodsaver-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./foodsaver-backend
+      dockerfile: Dockerfile
+    container_name: foodsaver-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=foodsaver
+      - JWT_SECRET=foodsaverSuperSecretKey2024MinimumLengthForHS256AlgorithmMustBe32Chars
+      - RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
+      - RAZORPAY_KEY_SECRET=your_secret_here
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./foodsaver-frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8080
+    container_name: foodsaver-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:

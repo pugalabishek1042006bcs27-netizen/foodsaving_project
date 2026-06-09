@@ -5,29 +5,28 @@ Thumbs.db
 # IDEs / Editors
 .vscode/
 .idea/
+*.iml
 
-# PHP / Composer
-/vendor/
-composer.lock
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
 
 # Node
 node_modules/
+dist/
 
-# XAMPP / local data
-*.sql
-*.sqlite
-/.env
-/config.php
-/db.php
+# Environment
+.env
+.env.local
 
-# Uploads (keep out of repo or use separate storage)
+# Uploads
 uploads/
 uploads/*
 
-# Logs and caches
+# Logs
 *.log
-cache/
-tmp/
 
 # Sensitive
 *.pem
